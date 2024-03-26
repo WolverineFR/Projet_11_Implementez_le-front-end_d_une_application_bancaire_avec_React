@@ -1,23 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 
 function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Data", formData);
+
+    try {
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        throw new Error("Erreur lors de la connexion");
+      }
+      const reponseData = await response.json();
+
+      if (reponseData) {
+        const token = reponseData.body.token;
+        localStorage.setItem("token", token);
+      } else {
+        console.log("Connexion raté");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="input-wrapper">
-            <label for="username">Username</label>
-            <input type="text" id="username" />
+            <label htmlFor="username">Username</label>
+            <input
+              name="email"
+              type="text"
+              id="username"
+              value={formData.email}
+              onChange={onChange}
+            />
           </div>
           <div className="input-wrapper">
-            <label for="password">Password</label>
-            <input type="password" id="password" />
+            <label htmlFor="password">Password</label>
+            <input
+              name="password"
+              type="password"
+              id="password"
+              value={formData.password}
+              onChange={onChange}
+            />
           </div>
           <div className="input-remember">
             <input type="checkbox" id="remember-me" />
-            <label for="remember-me">Remember me</label>
+            <label htmlFor="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button">Sign In</button>
         </form>
