@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,13 +29,14 @@ function LoginPage() {
         body: JSON.stringify(formData),
       });
       if (!response.ok) {
-        throw new Error("Erreur lors de la connexion");
+        alert("Username ou mot de passe incorrect");
       }
       const reponseData = await response.json();
 
       if (reponseData) {
         const token = reponseData.body.token;
         localStorage.setItem("token", token);
+        navigate("/User");
       } else {
         console.log("Connexion raté");
       }
