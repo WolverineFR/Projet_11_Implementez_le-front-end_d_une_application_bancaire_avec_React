@@ -60,6 +60,7 @@ body {
 
 .main-nav-item {
   display: flex;
+  flex-direction: row;
   text-decoration: none;
   margin-right: 0.5rem;
   gap: 8px;
