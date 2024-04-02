@@ -22,7 +22,13 @@ function Header() {
           </NavLink>
           {token && (
             <NavLink className="main-nav-item" to="/">
-              <i className="fa fa-sign-out"></i>
+              <i
+                className="fa fa-sign-out"
+                onClick={
+                  localStorage.removeItem("token") ||
+                  localStorage.removeItem("user")
+                }
+              ></i>
               Sign Out
             </NavLink>
           )}

@@ -1,48 +1,30 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../Store/UserSlice";
 
 function LoginPage() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { loading, error } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("Data", formData);
-
-    try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        alert("Username ou mot de passe incorrect");
-      }
-      const reponseData = await response.json();
-
-      if (reponseData) {
-        const token = reponseData.body.token;
-        localStorage.setItem("token", token);
+    let userCredentials = {
+      email,
+      password,
+    };
+    dispatch(loginUser(userCredentials)).then((result) => {
+      if (result.payload) {
+        setEmail("");
+        setPassword("");
         navigate("/User");
-      } else {
-        console.log("Connexion raté");
       }
-    } catch (error) {
-      console.error(error);
-    }
+    });
   };
 
   return (
@@ -57,8 +39,8 @@ function LoginPage() {
               name="email"
               type="text"
               id="username"
-              value={formData.email}
-              onChange={onChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-wrapper">
@@ -67,15 +49,22 @@ function LoginPage() {
               name="password"
               type="password"
               id="password"
-              value={formData.password}
-              onChange={onChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="input-remember">
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button className="sign-in-button">Sign In</button>
+          <button className="sign-in-button">
+            {loading ? "Loading..." : "Login"}
+          </button>
+          {error && (
+            <div className="WrongInfo" role="alert">
+              {"Email ou mot de passe invalide"}
+            </div>
+          )}
         </form>
       </section>
     </main>

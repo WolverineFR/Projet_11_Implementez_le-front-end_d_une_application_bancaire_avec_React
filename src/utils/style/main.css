@@ -121,6 +121,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.WrongInfo {
+  background-color: rgb(255, 135, 135);
+  color: rgb(80, 33, 33);
+  padding: 10px;
+}
+
 @media (min-width: 920px) {
   .hero {
     height: 400px;
