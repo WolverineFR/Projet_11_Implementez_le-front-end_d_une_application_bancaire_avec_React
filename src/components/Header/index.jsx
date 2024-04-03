@@ -1,9 +1,18 @@
 import React from "react";
 import logo from "../../assets/argentBankLogo.png";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoggedIn } from "../../Store/isLoggedIn";
 
 function Header() {
-  const token = localStorage.getItem("token");
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
+
+  function logOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    dispatch(setLoggedIn(false));
+  }
   return (
     <div className="Header">
       <nav className="main-nav">
@@ -20,15 +29,10 @@ function Header() {
             <i className="fa fa-user-circle"></i>
             Sign In
           </NavLink>
-          {token && (
-            <NavLink className="main-nav-item" to="/">
-              <i
-                className="fa fa-sign-out"
-                onClick={
-                  localStorage.removeItem("token") ||
-                  localStorage.removeItem("user")
-                }
-              ></i>
+          {isLoggedIn && (
+            // verifier pourquoi il est actif tout le temps
+            <NavLink className="main-nav-item" to="/" onClick={logOut}>
+              <i className="fa fa-sign-out"></i>
               Sign Out
             </NavLink>
           )}
