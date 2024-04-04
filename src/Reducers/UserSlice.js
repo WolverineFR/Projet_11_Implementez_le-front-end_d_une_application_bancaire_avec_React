@@ -41,6 +41,7 @@ const userSlice = createSlice({
     loading: false,
     data: null,
     error: null,
+    isLoggedIn: false,
   },
   extraReducers: (builder) => {
     builder
@@ -48,11 +49,13 @@ const userSlice = createSlice({
         state.loading = true;
         state.data = null;
         state.error = null;
+        state.isLoggedIn = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
         state.error = null;
+        state.isLoggedIn = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
