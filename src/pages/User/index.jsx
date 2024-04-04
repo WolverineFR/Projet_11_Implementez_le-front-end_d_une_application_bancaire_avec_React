@@ -1,8 +1,15 @@
 import React from "react";
+// import { useSelector } from "react-redux";
 // import { loginUser } from "../../Store/UserSlice";
 
 function User() {
-  const userData = localStorage.getItem("user");
+  // data dans state (se reinitialise apres refresh)
+  // const userData = useSelector((state) => state.user.data);
+
+  // data dans local storage
+  const userDataString = localStorage.getItem("user");
+  const userData = JSON.parse(userDataString);
+
   return (
     <main className="main bg-dark">
       <div className="header">

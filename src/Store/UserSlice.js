@@ -28,7 +28,9 @@ export const loginUser = createAsyncThunk(
       );
       const userData = await responseProfile.json();
       localStorage.setItem("user", JSON.stringify(userData.body));
-      return userData;
+
+      // return des données utilisateurs (nom, prenom, pseudo, etc..)
+      return userData.body;
     }
   }
 );
@@ -56,7 +58,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.data = null;
         console.log(action.error.message);
-        if (action.error.message === "Request failed with status code 400") {
+        if (action.error.message === "Request failed with status code 401") {
           state.error = "Accès refusé ! Données invalides";
         } else {
           state.error = action.error.message;

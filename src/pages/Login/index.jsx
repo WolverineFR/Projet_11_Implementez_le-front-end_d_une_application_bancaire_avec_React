@@ -4,14 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Store/UserSlice";
 
 function LoginPage() {
+  // rediriger apres connection
   const navigate = useNavigate();
 
+  // usestate des mails et mdp
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { loading, error } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+
+  // à l'envoie du formulaire
   const onSubmit = async (e) => {
     e.preventDefault();
     let userCredentials = {
