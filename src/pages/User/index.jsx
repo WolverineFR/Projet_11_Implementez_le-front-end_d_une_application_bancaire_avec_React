@@ -1,15 +1,13 @@
 import React from "react";
-// import { useSelector } from "react-redux";
-// import { loginUser } from "../../Store/UserSlice";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 function User() {
-  // data dans state (se reinitialise apres refresh)
-  // const userData = useSelector((state) => state.user.data);
+  const userData = useSelector((state) => state.user.data);
 
-  // data dans local storage
-  const userDataString = localStorage.getItem("user");
-  const userData = JSON.parse(userDataString);
-
+  if (!userData) {
+    return <Navigate to="/login"></Navigate>;
+  }
   return (
     <main className="main bg-dark">
       <div className="header">

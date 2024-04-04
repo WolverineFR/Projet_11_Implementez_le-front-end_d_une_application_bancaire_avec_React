@@ -1,23 +1,18 @@
 import React from "react";
 import logo from "../../assets/argentBankLogo.png";
 import { NavLink } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
-// import { setLoggedIn } from "../../Store/isLoggedIn";
+import { useDispatch } from "react-redux";
+
+import { useSelector } from "react-redux";
 
 function Header() {
-  // const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  // const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
 
-  const token = localStorage.getItem("token");
-
-  const userDataString = localStorage.getItem("user");
-  const userData = JSON.parse(userDataString);
+  const userData = useSelector((state) => state.user.data);
 
   function logOut() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.reload();
-    // dispatch(setLoggedIn(false));
+    dispatch(isLoggedIn(false));
   }
   return (
     <div className="Header">
@@ -31,17 +26,17 @@ function Header() {
           <h1 className="sr-only">Argent Bank</h1>
         </NavLink>
         <div className="LogBox">
-          {!token && (
+          {!userData && (
             <NavLink to="/Login" className="main-nav-item">
               <i className="fa fa-user-circle"></i>
               Sign In
             </NavLink>
           )}
-          {token && (
+          {userData && (
             <>
               <NavLink to="/User" className="main-nav-item">
                 <i class="fa fa-user-circle"></i>
-                {userData.firstName}
+                {userData.userName}
               </NavLink>
               <NavLink className="main-nav-item" to="/" onClick={logOut}>
                 <i className="fa fa-sign-out"></i>
