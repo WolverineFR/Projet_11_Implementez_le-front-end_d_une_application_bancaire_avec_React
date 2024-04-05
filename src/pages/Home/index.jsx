@@ -1,7 +1,7 @@
 import React from "react";
-import chatIcon from "../../assets/icon-chat.png";
-import moneyIcon from "../../assets/icon-money.png";
-import securityIcon from "../../assets/icon-security.png";
+import chatIcon from "../../assets/icon-chat.svg";
+import moneyIcon from "../../assets/icon-money.svg";
+import securityIcon from "../../assets/icon-security.svg";
 
 function Home() {
   return (

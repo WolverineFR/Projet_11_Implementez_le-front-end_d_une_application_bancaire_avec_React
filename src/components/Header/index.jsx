@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/argentBankLogo.png";
+import logo from "../../assets/argentBankLogo.webp";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
