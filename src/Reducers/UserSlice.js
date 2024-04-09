@@ -13,6 +13,7 @@ export const loginUser = createAsyncThunk(
     const reponseData = await request.json();
 
     const token = reponseData.body.token;
+    console.log(token);
     localStorage.setItem("token", token);
 
     if (token) {
@@ -27,11 +28,33 @@ export const loginUser = createAsyncThunk(
         }
       );
       const userData = await responseProfile.json();
-      localStorage.setItem("user", JSON.stringify(userData.body));
+      console.log(userData.body);
 
       // return des données utilisateurs (nom, prenom, pseudo, etc..)
       return userData.body;
     }
+  }
+);
+
+export const editUsername = createAsyncThunk(
+  "user/profile",
+  async (userCredentials, token) => {
+    const update = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(userCredentials),
+    };
+    const response = await fetch(
+      "http://localhost:3001/api/v1/user/profile",
+      update
+    );
+    const data = await response.json();
+
+    console.log(data);
+    console.log(update);
   }
 );
 
