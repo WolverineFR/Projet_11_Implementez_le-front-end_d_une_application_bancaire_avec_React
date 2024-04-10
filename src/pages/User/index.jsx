@@ -7,10 +7,12 @@ import { editUsername } from "../../Reducers/UserSlice";
 
 function User() {
   const userData = useSelector((state) => state.user.data);
-  // const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+
+  const [visible, setVisible] = useState(false);
+  const [userName, setUserName] = useState(userData.userName);
 
   // formulaire visible ou non en fonction du click sur le btn
-  const [visible, setVisible] = useState(false);
   const handleClickOpen = () => {
     setVisible(true);
   };
@@ -18,29 +20,16 @@ function User() {
     setVisible(false);
   };
 
-  const [userName, setUserName] = useState(userData.userName);
-
-  const dispatch = useDispatch();
-
   // à l'envoie du formulaire
   const onSubmit = async (e) => {
     e.preventDefault();
     const userCredentials = {
       userName,
     };
-
-    // voir pour faire en sorte de le mettre dans userSlice
-    // await fetch("http://localhost:3001/api/v1/user/profile", {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    //   body: JSON.stringify(userCredentials),
-    // });
     dispatch(editUsername(userCredentials)).then((result) => {
       if (result.payload) {
-        setUserName("");
+        setUserName(result.payload.userName);
+        // voir pour mettre à jour le state
       }
       handleClickClose();
     });

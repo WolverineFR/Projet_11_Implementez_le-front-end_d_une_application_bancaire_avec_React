@@ -1,9 +1,7 @@
 import React from "react";
 import logo from "../../assets/argentBankLogo.webp";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Header() {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -13,6 +11,7 @@ function Header() {
 
   function logOut() {
     dispatch(isLoggedIn(false));
+    localStorage.removeItem("token");
   }
   return (
     <div className="Header">
