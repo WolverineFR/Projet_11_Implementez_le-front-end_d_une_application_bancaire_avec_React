@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { setAuthToken } from "../actions/Authentification";
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (userCredentials) => {
+  async (userCredentials, { dispatch }) => {
     const request = await fetch("http://localhost:3001/api/v1/user/login", {
       method: "POST",
       headers: {
@@ -14,7 +15,9 @@ export const loginUser = createAsyncThunk(
 
     const token = reponseData.body.token;
     console.log(token);
-    localStorage.setItem("token", token);
+
+    // ajout du token dans le store
+    dispatch(setAuthToken(token));
 
     if (token) {
       const responseProfile = await fetch(
@@ -36,25 +39,33 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// modification de l'username
 export const editUsername = createAsyncThunk(
   "user/profile",
-  async (userCredentials, token) => {
-    const update = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(userCredentials),
-    };
-    const response = await fetch(
-      "http://localhost:3001/api/v1/user/profile",
-      update
-    );
-    const data = await response.json();
+  async (userCredentials, { getState }) => {
+    try {
+      // l'erreur vient d'ici, le token n'est pas recuperer
+      const token = getState().auth.setAuthToken;
+      console.log(token);
 
-    console.log(data);
-    console.log(update);
+      const response = await fetch(
+        "http://localhost:3001/api/v1/user/profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(userCredentials),
+        }
+      );
+      const data = await response.json();
+
+      console.log(data);
+      console.log(response);
+    } catch (error) {
+      throw error;
+    }
   }
 );
 

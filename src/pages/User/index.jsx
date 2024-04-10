@@ -7,13 +7,12 @@ import { editUsername } from "../../Reducers/UserSlice";
 
 function User() {
   const userData = useSelector((state) => state.user.data);
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   // formulaire visible ou non en fonction du click sur le btn
   const [visible, setVisible] = useState(false);
   const handleClickOpen = () => {
     setVisible(true);
-    console.log(token);
   };
   const handleClickClose = () => {
     setVisible(false);
@@ -30,16 +29,16 @@ function User() {
       userName,
     };
 
-    // voir pour corriger le probleme avec le body et le token (object object)
-    const update = await fetch("http://localhost:3001/api/v1/user/profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(userCredentials),
-    });
-    dispatch(editUsername({ update })).then((result) => {
+    // voir pour faire en sorte de le mettre dans userSlice
+    // await fetch("http://localhost:3001/api/v1/user/profile", {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    //   body: JSON.stringify(userCredentials),
+    // });
+    dispatch(editUsername(userCredentials)).then((result) => {
       if (result.payload) {
         setUserName("");
       }
