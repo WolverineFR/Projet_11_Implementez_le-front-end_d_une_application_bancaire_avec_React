@@ -127,6 +127,24 @@ body {
   padding: 10px;
 }
 
+/* formulaire username */
+.formEditUsername form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.formEditUsername div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.formEditUsername button {
+  width: 100px;
+  margin-top: 10px;
+}
+
 @media (min-width: 920px) {
   .hero {
     height: 400px;
