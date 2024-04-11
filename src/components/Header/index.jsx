@@ -34,7 +34,7 @@ function Header() {
           {userData && (
             <>
               <NavLink to="/User" className="main-nav-item">
-                <i class="fa fa-user-circle"></i>
+                <i className="fa fa-user-circle"></i>
                 {userData.userName}
               </NavLink>
               <NavLink className="main-nav-item" to="/" onClick={logOut}>

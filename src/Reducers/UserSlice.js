@@ -54,8 +54,8 @@ export const editUsername = createAsyncThunk(
         }
       );
       const data = await response.json();
-
-      console.log(data);
+      // return les données mis à jour
+      return data.body;
     } catch (error) {
       throw error;
     }
@@ -83,6 +83,9 @@ const userSlice = createSlice({
         state.data = action.payload;
         state.error = null;
         state.isLoggedIn = true;
+      })
+      .addCase(editUsername.fulfilled, (state, action) => {
+        state.data = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

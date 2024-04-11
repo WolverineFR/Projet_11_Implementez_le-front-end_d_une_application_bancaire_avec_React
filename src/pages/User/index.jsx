@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+
 import Card from "../../components/Card";
 import dataAccount from "../../data/dataAccount.json";
 import { editUsername } from "../../Reducers/UserSlice";
@@ -29,18 +29,11 @@ function User() {
     dispatch(editUsername(userCredentials)).then((result) => {
       if (result.payload) {
         setUserName(result.payload.userName);
-        // voir pour mettre à jour le state
       }
       handleClickClose();
     });
   };
 
-  // verification si l'utilisateur est connecté
-  if (!userData) {
-    return <Navigate to="/login"></Navigate>;
-  }
-
-  // si oui afficher la page
   return (
     <main className="main bg-dark">
       <div className="header">
