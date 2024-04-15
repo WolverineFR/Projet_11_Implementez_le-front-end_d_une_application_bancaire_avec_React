@@ -1,9 +1,6 @@
 import React from "react";
 import IconCard from "../../components/IconCard";
 import dataIcon from "../../data/dataIcon.json";
-// import chatIcon from "../../assets/icon-chat.svg";
-// import moneyIcon from "../../assets/icon-money.svg";
-// import securityIcon from "../../assets/icon-security.svg";
 
 function Home() {
   return (
