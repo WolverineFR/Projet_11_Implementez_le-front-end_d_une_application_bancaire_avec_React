@@ -145,6 +145,10 @@ body {
   margin-top: 10px;
 }
 
+.errorName {
+  color: white;
+  margin: 0;
+}
 @media (min-width: 920px) {
   .hero {
     height: 400px;

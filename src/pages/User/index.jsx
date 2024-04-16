@@ -11,6 +11,7 @@ function User() {
 
   const [visible, setVisible] = useState(false);
   const [userName, setUserName] = useState(userData.userName);
+  const [error, setError] = useState(false);
 
   // formulaire visible ou non en fonction du click sur le btn
   const handleClickOpen = () => {
@@ -23,15 +24,19 @@ function User() {
   // à l'envoie du formulaire
   const onSubmit = async (e) => {
     e.preventDefault();
-    const userCredentials = {
-      userName,
-    };
-    dispatch(editUsername(userCredentials)).then((result) => {
-      if (result.payload) {
-        setUserName(result.payload.userName);
-      }
-      handleClickClose();
-    });
+    if (userName.length >= 1) {
+      const userCredentials = {
+        userName,
+      };
+      dispatch(editUsername(userCredentials)).then((result) => {
+        if (result.payload) {
+          setUserName(result.payload.userName);
+        }
+        handleClickClose();
+      });
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -48,6 +53,9 @@ function User() {
         {visible ? (
           <div className="formEditUsername">
             <form onSubmit={onSubmit}>
+              {error && (
+                <p className="errorName">Le pseudo ne peut pas être vide !!</p>
+              )}
               <div>
                 <label htmlFor="username">User name:</label>
                 <input
